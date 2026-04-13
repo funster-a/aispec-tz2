@@ -3,10 +3,11 @@
 ---
 
 ## 📌 Результаты (Ссылки и Артефакты)
-- **Дашборд (Vercel):** [Вставить ссылку, например: https://aispec-tz.vercel.app]
-- **GitHub Репозиторий:** [Вставить ссылку на репозиторий]
+- **Дашборд (Vercel):** https://aispec-tz2-dashboard.vercel.app/
+- **GitHub Репозиторий:** 
 - **Скриншот из Telegram:**  
-  ![Telegram Alert](telegram-alert.png) *(замени путь на реальный скриншот)*
+  ![Telegram Alert] <img width="801" height="317" alt="image" src="https://github.com/user-attachments/assets/ceb175b4-9778-467f-8ac9-b1c4579d3b0b" />
+
 
 ---
 
