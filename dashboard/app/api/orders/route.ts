@@ -21,17 +21,26 @@ export async function GET() {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   try {
-    const { data, error } = await supabase
+    const { data: chartData, error: chartError } = await supabase
       .from('orders')
       .select('created_at, total')
       .order('created_at', { ascending: true });
 
-    if (error) throw error;
+    if (chartError) throw chartError;
+
+    // Fetch 10 most recent orders for the list
+    const { data: recentOrders, error: recentError } = await supabase
+      .from('orders')
+      .select('number, total, first_name, last_name, status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(10);
+
+    if (recentError) throw recentError;
 
     // Group by calendar day (YYYY-MM-DD)
     const grouped: Record<string, { count: number; revenue: number }> = {};
 
-    for (const row of data ?? []) {
+    for (const row of chartData ?? []) {
       if (!row.created_at) continue;
       const day = (row.created_at as string).slice(0, 10); // "YYYY-MM-DD"
       if (!grouped[day]) grouped[day] = { count: 0, revenue: 0 };
@@ -45,7 +54,10 @@ export async function GET() {
       revenue: Math.round(v.revenue),
     }));
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      metrics: result,
+      recent: recentOrders,
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
